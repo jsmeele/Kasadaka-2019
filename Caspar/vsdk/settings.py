@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import dj_database_url
 #from . import custom_storages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -93,6 +94,8 @@ DATABASES = {
 		 'ENGINE': 'django.db.backends.sqlite3',
 		 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 	     }}
+# DATABASES = {}
+# DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -152,7 +155,7 @@ MEDIA_URL = '/uploads/'
 try:
     SFTP_PASS =  os.environ['SFTP_PASS']
     SFTP_USER = os.environ['SFTP_USER']
-    HEROKU =os.environ['HEROKU'] 
+    HEROKU =os.environ['HEROKU']
     SFTP_HOST = os.environ['SFTP_HOST']
     SFTP_PORT = os.environ['SFTP_PORT']
 
@@ -189,7 +192,6 @@ if HEROKU:
             'PORT':'',
         }
     }
-    import dj_database_url
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
 else:
@@ -238,4 +240,3 @@ LOGGING = {
         },
     }
 }
-
