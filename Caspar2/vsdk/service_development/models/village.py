@@ -17,5 +17,5 @@ class Village(models.Model):
         # if not self.id:
         #     self.latitude = 1
         #     self.longitude = 2
-        self.updated = datetime.datetime.today()
+        #self.updated = datetime.datetime.today()
         super(Village, self).save()
