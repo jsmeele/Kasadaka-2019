@@ -42,6 +42,10 @@ def voice_service_start(request, voice_service_id, session_id = None):
 
         # If there is no user with this caller_id and registration of users is preferred or required, redirect to registration
         elif voice_service.registration_preferred_or_required:
+            print('TEST---1------------')
+            print(redirect('service-development:user-registration',
+                    session.id))
+            print('TEST---1------------')
             return redirect('service-development:user-registration',
                     session.id)
 
@@ -50,7 +54,6 @@ def voice_service_start(request, voice_service_id, session_id = None):
     elif voice_service.registration_required and not caller_id:
         # TODO make this into a nice audio error
         raise ValueError('This service requires registration, but registration is not possible, because there is no callerID!')
-
 
 
     # If the language for this session can not be determined,

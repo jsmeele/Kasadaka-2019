@@ -9,6 +9,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 from . import Language
 from . import VoiceService
 
+#NEW
+from . import Region
+from . import Village
+
 class KasaDakaUser(models.Model):
     """
     User that belongs to a Voice Service on this system
@@ -16,10 +20,13 @@ class KasaDakaUser(models.Model):
     caller_id = models.CharField(_('Phone number'),max_length=100, unique = True)
     #phone_number = PhoneNumberField()
     first_name = models.CharField(_('First name'), max_length = 100, blank = True)
+    # middle_name = models.CharField(_('Middle name'), max_length = 100, blank = True)
     last_name = models.CharField(_('Last name'), max_length=100, blank = True)
     creation_date = models.DateTimeField(_('Date created'),auto_now_add = True)
     modification_date = models.DateTimeField(_('Date last modified'),auto_now = True)
     language = models.ForeignKey(Language,on_delete = models.SET_NULL, null = True)
+    region = models.ForeignKey(Region,on_delete = models.SET_NULL, null = True, blank = True)
+    village = models.ForeignKey(Village,on_delete = models.SET_NULL, null = True, blank = True)
     service = models.ForeignKey(VoiceService, on_delete = models.CASCADE)
 
     class Meta:

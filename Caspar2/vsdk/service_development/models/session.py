@@ -9,6 +9,10 @@ from . import KasaDakaUser
 from . import VoiceService, VoiceServiceElement
 from . import Language
 
+#NEW
+from . import Region
+from . import Village
+
 class CallSession(models.Model):
     start = models.DateTimeField(_('Starting time'),auto_now_add = True)
     #TODO: make some kind of handler when the Asterisk connection is closed, to officially end the session.
@@ -17,6 +21,10 @@ class CallSession(models.Model):
     caller_id = models.CharField(_('Caller ID'),max_length = 100, blank = True, null = True)
     service = models.ForeignKey(VoiceService, on_delete = models.SET_NULL, null = True)
     _language = models.ForeignKey(Language,on_delete = models.SET_NULL, null = True)
+
+    #NEW
+    _region = models.ForeignKey(Region,on_delete = models.SET_NULL, null = True)
+    _village = models.ForeignKey(Village,on_delete = models.SET_NULL, null = True)
 
     class Meta:
         verbose_name = _('Call Session')
@@ -35,26 +43,47 @@ class CallSession(models.Model):
         """
         Tries to determine the language of the session, taking into account
         the voice service, user preferences and possibly an already set language
-        for the session. 
+        for the session.
         Returns a determined to be valid Language for the Session.
         Returns None if the language cannot be determined.
         """
         if self.service:
             if self.service.supports_single_language:
                 self._language = self.service.supported_languages.all()[0]
-            elif self.user and self.user.language in self.service.supported_languages.all(): 
+            elif self.user and self.user.language in self.service.supported_languages.all():
                     self._language = self.user.language
             elif self._language and not self._language in self.service.supported_languages.all():
                     self._language = None
         else:
             self._language = None
-        
+
         self.save()
         return self._language
-    
+
+    @property
+    def region(self):
+        """
+        Tries to determine the region of the session, taking into account
+        the voice service, user preferences and possibly an already set region
+        for the session.
+        Returns a determined to be valid Region for the Session.
+        Returns None if the region cannot be determined.
+        """
+        if self.service:
+            print(Region.objects.all())
+            if self.user and self.user.region in Region.objects.all():
+                    self._region = self.user.region
+            elif self._region and not self._region in Region.objects.all():
+                    self._region = None
+        else:
+            self._region = None
+
+        self.save()
+        return self._region
+
     def record_step(self, element = None, description = None):
         step = CallSessionStep(session = self, _visited_element = element, description = description)
-        self.end = timezone.now() 
+        self.end = timezone.now()
         self.save()
         step.save()
         return
@@ -102,6 +131,6 @@ def lookup_or_create_session(voice_service, session_id=None, caller_id = None):
     else:
         session = CallSession.objects.create(
                 service = voice_service,
-                caller_id = caller_id) 
+                caller_id = caller_id)
         session.save()
     return session

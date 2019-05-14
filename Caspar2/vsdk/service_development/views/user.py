@@ -21,6 +21,8 @@ class KasaDakaUserRegistration(TemplateView):
                 service = session.service)
         if session.service.registration_language:
             user.language = session.language
+            user.region = session.region
+            # user.village = session.village
         #if session.service.registration_name:
         #    pass
 
@@ -37,12 +39,17 @@ class KasaDakaUserRegistration(TemplateView):
         been filled.
         """
         # Always redirect back to registration process
-        redirect_url = reverse('service-development:user-registration', args =[session.id])
-        if session.service.registration_language and session.language == None:
+        print('TEST---2------------')
+        # redirect_url = reverse('service-development:user-registration', args =[session.id])
+        redirect_url = reverse('service-development:region-selection', args =[session.id])
+        print(redirect_url)
+        print('TEST---2------------')
+        if session.service.registration_language and session.language == None and session.region == None: # and session.village == None:
+            print('TEST---3------------')
             return base.redirect_add_get_parameters('service-development:language-selection', session.id,
                     redirect_url = redirect_url)
-        
-        #TODO: dit verder uitwerken, user bestaat natuurlijk nog niet dus daar kun je niet checken. 
+
+        #TODO: dit verder uitwerken, user bestaat natuurlijk nog niet dus daar kun je niet checken.
         #if 'name' in session.service.registration_elements and session.user.name_voice == None:
             # go to user name voice prompt
         #    pass
@@ -51,6 +58,7 @@ class KasaDakaUserRegistration(TemplateView):
         self.create_new_user(request, session)
 
         # Return to start of voice service
+        print('TEST---3------------')
         return redirect('service-development:voice-service', voice_service_id = session.service.id, session_id = session.id)
 
     def get(self, request, session_id):

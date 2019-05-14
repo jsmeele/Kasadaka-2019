@@ -5,6 +5,8 @@ from django.http.response import HttpResponseRedirect
 
 from ..models import CallSession, VoiceService, Language
 
+from . import base
+
 class LanguageSelection(TemplateView):
 
     def render_language_selection_form(self, request, session, redirect_url):
@@ -26,8 +28,11 @@ class LanguageSelection(TemplateView):
         """
         Asks the user to select one of the supported languages.
         """
+        print('-----LANG_GET-------')
+        print(request.GET)
         session = get_object_or_404(CallSession, pk = session_id)
         voice_service = session.service
+
         if 'redirect_url' in request.GET:
             redirect_url = request.GET['redirect_url']
         return self.render_language_selection_form(request, session, redirect_url)
@@ -36,6 +41,8 @@ class LanguageSelection(TemplateView):
         """
         Saves the chosen language to the session
         """
+        print('-----LANG_POST-------')
+        print(request.POST)
         if 'redirect_url' in request.POST:
             redirect_url = request.POST['redirect_url']
         else: raise ValueError('Incorrect request, redirect_url not set')
@@ -50,5 +57,8 @@ class LanguageSelection(TemplateView):
         session.save()
 
         session.record_step(None, "Language selected, %s" % language.name)
-
+        print('----REDIRECT-LANG-----')
         return HttpResponseRedirect(redirect_url)
+        # redirect_url = reverse('service-development:village-selection', args =[session.id])
+        # return base.redirect_add_get_parameters('service-development:region-selection', session.id,
+        #         redirect_url = redirect_url)

@@ -7,7 +7,7 @@ from ..models import village
 from . import base
 
 # Create your views here.
-class VillageRegistration(TemplateView):
+class VillageSelection(TemplateView):
 
     def create_new_village(self, request, session):
         """
