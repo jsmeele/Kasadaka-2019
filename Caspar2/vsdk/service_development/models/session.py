@@ -81,6 +81,27 @@ class CallSession(models.Model):
         self.save()
         return self._region
 
+    @property
+    def village(self):
+        """
+        Tries to determine the village of the session, taking into account
+        the voice service, user preferences and possibly an already set village
+        for the session.
+        Returns a determined to be valid Village for the Session.
+        Returns None if the village cannot be determined.
+        """
+        if self.service:
+            print(Village.objects.all())
+            if self.user and self.user.village in Village.objects.all():
+                    self._village = self.user.village
+            elif self._village and not self._village in Village.objects.all():
+                    self._village = None
+        else:
+            self._village = None
+
+        self.save()
+        return self._village
+
     def record_step(self, element = None, description = None):
         step = CallSessionStep(session = self, _visited_element = element, description = description)
         self.end = timezone.now()

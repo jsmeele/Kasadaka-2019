@@ -58,7 +58,7 @@ class LanguageSelection(TemplateView):
 
         session.record_step(None, "Language selected, %s" % language.name)
         print('----REDIRECT-LANG-----')
-        return HttpResponseRedirect(redirect_url)
-        # redirect_url = reverse('service-development:village-selection', args =[session.id])
-        # return base.redirect_add_get_parameters('service-development:region-selection', session.id,
-        #         redirect_url = redirect_url)
+        # return HttpResponseRedirect(redirect_url)
+        redirect_url = reverse('service-development:village-selection', args =[session.id])
+        return base.redirect_add_get_parameters('service-development:region-selection', session.id,
+                redirect_url = redirect_url)

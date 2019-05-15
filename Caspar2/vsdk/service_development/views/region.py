@@ -5,6 +5,8 @@ from django.http.response import HttpResponseRedirect
 
 from ..models import CallSession, VoiceService, Region
 
+from . import base
+
 # Create your views here.
 class RegionSelection(TemplateView):
 
@@ -34,8 +36,7 @@ class RegionSelection(TemplateView):
         voice_service = session.service
         # if 'redirect_url' in request.GET:
         #     redirect_url = request.GET['redirect_url']
-        redirect_url = reverse('service-development:user-registration', args =[session.id])
-        # redirect_url = reverse('service-development:village-selection', args = [session.id])
+        redirect_url = reverse('service-development:village-selection', args = [session.id])
         return self.render_region_selection_form(request, session, redirect_url)
 
     def post(self, request, session_id):
@@ -59,7 +60,10 @@ class RegionSelection(TemplateView):
 
         session.record_step(None, "Region selected, %s" % region.name)
 
-        return HttpResponseRedirect(redirect_url)
+        # return HttpResponseRedirect(redirect_url)
+        redirect_url = reverse('service-development:user-registration', args =[session.id])
+        return base.redirect_add_get_parameters('service-development:village-selection', session.id,
+                redirect_url = redirect_url)
 
 
     # def create_new_region(self, request, session):

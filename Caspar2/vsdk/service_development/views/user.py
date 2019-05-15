@@ -22,7 +22,7 @@ class KasaDakaUserRegistration(TemplateView):
         if session.service.registration_language:
             user.language = session.language
             user.region = session.region
-            # user.village = session.village
+            user.village = session.village
         #if session.service.registration_name:
         #    pass
 
