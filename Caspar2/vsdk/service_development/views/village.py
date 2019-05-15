@@ -29,8 +29,8 @@ class VillageSelection(TemplateView):
         """
         Asks the user to select one of the villages.
         """
-        print('-----VILLAGE_GET-------')
-        print(request.GET)
+        # print('-----VILLAGE_GET-------')
+        # print(request.GET)
 
         session = get_object_or_404(CallSession, pk = session_id)
         voice_service = session.service
@@ -43,8 +43,8 @@ class VillageSelection(TemplateView):
         """
         Saves the chosen village to the session
         """
-        print('-----VILLAGE_POST-------')
-        print(request.POST)
+        # print('-----VILLAGE_POST-------')
+        # print(request.POST)
         if 'redirect_url' in request.POST:
             redirect_url = request.POST['redirect_url']
         else: raise ValueError('Incorrect request, redirect_url not set')

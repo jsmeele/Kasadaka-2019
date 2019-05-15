@@ -9,7 +9,10 @@ from django.urls.exceptions import NoReverseMatch
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 
-from .voicelabel import VoiceLabel, Language, VoiceFragment
+# from .voicelabel import VoiceLabel, Language, VoiceFragment
+from .voicelabel import VoiceLabel
+from .language import Language
+from .voicefragment import VoiceFragment
 from .vs_element import VoiceServiceElement
 
 class VoiceService(models.Model):

@@ -15,5 +15,6 @@ urlpatterns = [
 
     # NEW
     url(r'^region_select/(?P<session_id>[0-9]+)$', views.RegionSelection.as_view(), name = 'region-selection'),
+    # url(r'^region_select/(?P<session_id>[0-9]+)$', views.region_presentation, name = 'region-selection'),
     url(r'^village_select/(?P<session_id>[0-9]+)$', views.VillageSelection.as_view(), name = 'village-selection')
 ]

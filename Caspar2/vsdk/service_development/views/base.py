@@ -18,8 +18,7 @@ def redirect_add_get_parameters(url_name, *args, **kwargs):
     from django.urls import reverse
     from django.http import HttpResponseRedirect
     import urllib
-    print('----REDIRECT-PARAM----')
-    # print(reverse(reverse(url_name, args = args)))
+
     url = reverse(url_name, args = args)
     params = urllib.parse.urlencode(kwargs)
 

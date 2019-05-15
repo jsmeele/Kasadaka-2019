@@ -39,13 +39,11 @@ class KasaDakaUserRegistration(TemplateView):
         been filled.
         """
         # Always redirect back to registration process
-        print('TEST---2------------')
         # redirect_url = reverse('service-development:user-registration', args =[session.id])
         redirect_url = reverse('service-development:region-selection', args =[session.id])
-        print(redirect_url)
-        print('TEST---2------------')
-        if session.service.registration_language and session.language == None and session.region == None: # and session.village == None:
-            print('TEST---3------------')
+        print('TEST 1')
+        if session.service.registration_language and session.language == None and session.region == None and session.village == None:
+            print('TEST 2')
             return base.redirect_add_get_parameters('service-development:language-selection', session.id,
                     redirect_url = redirect_url)
 
@@ -58,7 +56,6 @@ class KasaDakaUserRegistration(TemplateView):
         self.create_new_user(request, session)
 
         # Return to start of voice service
-        print('TEST---3------------')
         return redirect('service-development:voice-service', voice_service_id = session.service.id, session_id = session.id)
 
     def get(self, request, session_id):

@@ -42,10 +42,6 @@ def voice_service_start(request, voice_service_id, session_id = None):
 
         # If there is no user with this caller_id and registration of users is preferred or required, redirect to registration
         elif voice_service.registration_preferred_or_required:
-            print('TEST---1------------')
-            print(redirect('service-development:user-registration',
-                    session.id))
-            print('TEST---1------------')
             return redirect('service-development:user-registration',
                     session.id)
 

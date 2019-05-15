@@ -7,7 +7,6 @@ from ..models import CallSession, VoiceService, Region
 
 from . import base
 
-
 # Create your views here.
 class RegionSelection(TemplateView):
 
@@ -26,8 +25,14 @@ class RegionSelection(TemplateView):
                    }
 
         print('-----*****REGION*****-----')
-        print(regions)
         print(language)
+        print(request)
+        print(session)
+        print(redirect_url)
+        print(request.redirect.get_absolute_url(session))
+        # print(element_id)
+        # print(session_id)
+        # print(message_presentation_element)
         return render(request, 'region_selection.xml', context, content_type='text/xml')
 
     def get(self, request, session_id):
@@ -109,40 +114,3 @@ class RegionSelection(TemplateView):
     #     # print("TEST3")
     #     session = get_object_or_404(CallSession, pk = session_id)
     #     return self.region_registration_process(request, session)
-
-
-# def region_presentation_get_redirect_url(region_presentation_element,session):
-#     if not region_presentation_element.final_element:
-#         return region_presentation_element.redirect.get_absolute_url(session)
-#     else:
-#         return None
-#
-#
-#
-# def region_presentation_generate_context(region_presentation_element,session):
-#     language = session.language
-#     print('Language')
-#     print(language)
-#     print(region_presentation_element)
-#     print(session)
-#     region_voice_fragment_url = region_presentation_element.get_voice_fragment_url(language)
-#     print(region_voice_fragment_url)
-#     print('-----*****REGION_END*****-----')
-#     redirect_url = region_presentation_get_redirect_url(region_presentation_element,session)
-#     context = {'region_voice_fragment_url':region_voice_fragment_url,
-#             'redirect_url':redirect_url}
-#     return context
-#
-#
-# def region_presentation(request, element_id, session_id):
-#     print('-----*****REGION*****-----')
-#     region_presentation_element = get_object_or_404(RegionPresentation, pk=element_id)
-#     session = get_object_or_404(CallSession, pk=session_id)
-#     session.record_step(region_presentation_element)
-#     context = region_presentation_generate_context(region_presentation_element, session)
-#     print(region_presentation_element)
-#     print(request)
-#     print(element_id)
-#     print(session_id)
-#     print(region_presentation_element)
-#     return render(request, 'region_selection.xml', context, content_type='text/xml')

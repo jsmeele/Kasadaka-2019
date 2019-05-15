@@ -70,7 +70,7 @@ class CallSession(models.Model):
         Returns None if the region cannot be determined.
         """
         if self.service:
-            print(Region.objects.all())
+            # print(Region.objects.all())
             if self.user and self.user.region in Region.objects.all():
                     self._region = self.user.region
             elif self._region and not self._region in Region.objects.all():
@@ -91,7 +91,7 @@ class CallSession(models.Model):
         Returns None if the village cannot be determined.
         """
         if self.service:
-            print(Village.objects.all())
+            # print(Village.objects.all())
             if self.user and self.user.village in Village.objects.all():
                     self._village = self.user.village
             elif self._village and not self._village in Village.objects.all():

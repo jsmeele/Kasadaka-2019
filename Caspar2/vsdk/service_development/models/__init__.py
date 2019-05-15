@@ -3,6 +3,8 @@ from .region import *
 from .village import *
 from .crop import *
 from .cropsize import *
+from .language import *
+from .voicefragment import *
 
 #ORIGINAL
 from .voiceservice import *

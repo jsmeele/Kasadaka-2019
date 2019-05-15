@@ -44,6 +44,5 @@ class CropRegistration(TemplateView):
         return redirect('service-development:voice-service', voice_service_id = session.service.id, session_id = session.id)
 
     def get(self, request, session_id):
-        # print("TEST3")
         session = get_object_or_404(CallSession, pk = session_id)
         return self.crop_registration_process(request, session)
