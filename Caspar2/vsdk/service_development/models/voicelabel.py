@@ -4,8 +4,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 from django.utils.safestring import mark_safe
 
-from ..models import Region
-
 
 class VoiceLabel(models.Model):
     name = models.CharField(_('Name'),max_length=50)
@@ -33,10 +31,6 @@ class VoiceLabel(models.Model):
     def get_voice_fragment_url(self, language):
         # print('+++++++++++VOICE_LABEL++++++++++++')
         # print(self.voicefragment_set.filter(language=language)[0])
-        return self.voicefragment_set.filter(language=language)[0].get_url()
-
-    def get_voice_fragment_url2(self, language):
-        # print('+++++++++++VOICE_LABEL2++++++++++++')
+        # print(self.objects.all())
         # print(language)
-        # print(Region.voicefragment_set)
-        return 'TEST' #self.voicefragment_set.filter(language=language)[0].get_url()
+        return self.voicefragment_set.filter(language=language)[0].get_url()

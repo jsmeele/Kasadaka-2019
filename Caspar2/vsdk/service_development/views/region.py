@@ -14,6 +14,16 @@ class RegionSelection(TemplateView):
     def render_region_selection_form(self, request, session, redirect_url):
         regions = Region.objects.all()
         language = session.language
+        labels = []
+
+        print('-----*****REGION*****-----')
+        print(regions)
+        for r in regions:
+            labels.append(r.region.get_voice_fragment_url(language))
+        # region_element = get_object_or_404(Region, pk=element_id)
+        # print(region_element)
+        print(language)
+
         # This is the redirect URL to POST the Region selected
         # redirect_url_POST = reverse('service-development:village-selection', args = [session.id])
         redirect_url_POST = reverse('service-development:region-selection', args =[session.id])
@@ -21,23 +31,23 @@ class RegionSelection(TemplateView):
         pass_on_variables = {'redirect_url' : redirect_url}
 
         context = {'regions' : regions,
+                   'labels' : labels,
                    'redirect_url' : redirect_url_POST,
                    'pass_on_variables' : pass_on_variables
                    }
 
-        print('-----*****REGION*****-----')
-        print(regions)
-        print(language)
         return render(request, 'region_selection.xml', context, content_type='text/xml')
 
     def get(self, request, session_id):
         """
         Asks the user to select one of the regions.
         """
+        session = get_object_or_404(CallSession, pk = session_id)
+
         print('-----REGION_GET-------')
         print(request.GET)
+        print(session.language)
 
-        session = get_object_or_404(CallSession, pk = session_id)
         voice_service = session.service
         # if 'redirect_url' in request.GET:
         #     redirect_url = request.GET['redirect_url']
@@ -52,6 +62,7 @@ class RegionSelection(TemplateView):
         print(request.POST)
         if 'redirect_url' in request.POST:
             redirect_url = request.POST['redirect_url']
+            language_id = request.POST['language_id']
         else: raise ValueError('Incorrect request, redirect_url not set')
         if 'region_id' not in request.POST:
             raise ValueError('Incorrect request, region ID not set')
@@ -68,7 +79,7 @@ class RegionSelection(TemplateView):
         # return HttpResponseRedirect(redirect_url)
         redirect_url = reverse('service-development:user-registration', args =[session.id])
         return base.redirect_add_get_parameters('service-development:village-selection', session.id,
-                redirect_url = redirect_url)
+                redirect_url = redirect_url, language_id = language_id)
 
 
     # def create_new_region(self, request, session):

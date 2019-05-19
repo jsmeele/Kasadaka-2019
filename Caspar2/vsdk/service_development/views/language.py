@@ -11,7 +11,7 @@ class LanguageSelection(TemplateView):
 
     def render_language_selection_form(self, request, session, redirect_url):
         languages = session.service.supported_languages.all()
-
+        print(languages[0])
         # This is the redirect URL to POST the language selected
         redirect_url_POST = reverse('service-development:language-selection', args = [session.id])
 
@@ -45,6 +45,7 @@ class LanguageSelection(TemplateView):
         print(request.POST)
         if 'redirect_url' in request.POST:
             redirect_url = request.POST['redirect_url']
+            language_id = request.POST['language_id']
         else: raise ValueError('Incorrect request, redirect_url not set')
         if 'language_id' not in request.POST:
             raise ValueError('Incorrect request, language ID not set')
@@ -61,4 +62,4 @@ class LanguageSelection(TemplateView):
         # return HttpResponseRedirect(redirect_url)
         redirect_url = reverse('service-development:village-selection', args =[session.id])
         return base.redirect_add_get_parameters('service-development:region-selection', session.id,
-                redirect_url = redirect_url)
+                redirect_url = redirect_url, language_id = language_id)

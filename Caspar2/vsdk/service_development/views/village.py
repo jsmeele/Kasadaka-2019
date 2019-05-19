@@ -12,6 +12,16 @@ class VillageSelection(TemplateView):
 
     def render_village_selection_form(self, request, session, redirect_url):
         villages = Village.objects.all()
+        language = session.language
+        labels = []
+
+        print('-----*****VILLAGE*****-----')
+        print(villages)
+        for v in villages:
+            labels.append(v.village.get_voice_fragment_url(language))
+        # village_element = get_object_or_404(Village, pk=element_id)
+        # print(village_element)
+        print(language)
 
         # This is the redirect URL to POST the Village selected
         # redirect_url_POST = reverse('service-development:village-selection', args = [session.id])
@@ -20,19 +30,23 @@ class VillageSelection(TemplateView):
         pass_on_variables = {'redirect_url' : redirect_url}
 
         context = {'villages' : villages,
+                   'labels' : labels,
                    'redirect_url' : redirect_url_POST,
                    'pass_on_variables' : pass_on_variables
                    }
+
         return render(request, 'village_selection.xml', context, content_type='text/xml')
 
     def get(self, request, session_id):
         """
         Asks the user to select one of the villages.
         """
-        # print('-----VILLAGE_GET-------')
-        # print(request.GET)
-
         session = get_object_or_404(CallSession, pk = session_id)
+
+        print('-----VILLAGE_GET-------')
+        print(request.GET)
+        print(session.language)
+
         voice_service = session.service
         # if 'redirect_url' in request.GET:
         #     redirect_url = request.GET['redirect_url']
@@ -43,10 +57,11 @@ class VillageSelection(TemplateView):
         """
         Saves the chosen village to the session
         """
-        # print('-----VILLAGE_POST-------')
-        # print(request.POST)
+        print('-----VILLAGE_POST-------')
+        print(request.POST)
         if 'redirect_url' in request.POST:
             redirect_url = request.POST['redirect_url']
+
         else: raise ValueError('Incorrect request, redirect_url not set')
         if 'village_id' not in request.POST:
             raise ValueError('Incorrect request, village ID not set')
