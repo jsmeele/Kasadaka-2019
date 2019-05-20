@@ -5,6 +5,10 @@ from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 class Village(models.Model):
     name = models.CharField(max_length=50)
+    region = models.ForeignKey('Region',
+                               blank = True,
+                               null = True,
+                               on_delete = models.CASCADE)
     village = models.ForeignKey('VoiceLabel',
                                 blank = True,
                                 null = True,

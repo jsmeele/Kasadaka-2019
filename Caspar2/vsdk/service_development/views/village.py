@@ -11,17 +11,22 @@ from . import base
 class VillageSelection(TemplateView):
 
     def render_village_selection_form(self, request, session, redirect_url):
-        villages = Village.objects.all()
+        # villages = Village.objects.all()
         language = session.language
+        region = session.region
         labels = []
+
+        villages = Village.objects.filter(region=region)
 
         print('-----*****VILLAGE*****-----')
         print(villages)
         for v in villages:
             labels.append(v.village.get_voice_fragment_url(language))
+            print(v.region)
         # village_element = get_object_or_404(Village, pk=element_id)
         # print(village_element)
         print(language)
+        print(region)
 
         # This is the redirect URL to POST the Village selected
         # redirect_url_POST = reverse('service-development:village-selection', args = [session.id])
